@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+
+<launch>
+	<node pkg="cpluspod_joycontroller" exec="cpluspod_joycontroller">
+		<param name="linear_x_offset" value=0.8/>
+		<param name="linear_x_offset" value=0.8/>
+	</node>
+
+
+
+</launch>
