@@ -18,7 +18,7 @@ class joycon_controller(Node):
 
         self.joy_sub = self.create_subscription(Joy, "/joy", self.joy_callback, 10)
         
-        self.isPublishTwist = False
+        self.isPublishCmd = False
 
         self.declare_parameter('linear_x_offset', 1.0)
         self.declare_parameter('angular_z_offset', 1.0)
@@ -27,27 +27,26 @@ class joycon_controller(Node):
         self.angular_z_offset = self.get_parameter('angular_z_offset').get_parameter_value().double_value
 
     def joy_callback(self, msgs):
-        # twist = Twist()
         ackermann = AckermannControlCommand()
         ackermann.longitudinal.speed =  msgs.axes[1] * self.linear_x_offset
-        ackermann.lateral.steering_tire_angle = msgs.axes[0] * self.angular_z_offset
+        ackermann.lateral.steering_tire_angle = msgs.axes[2] * self.angular_z_offset
         
         # stop to publish twist
         # A : Publish
         # B : Not Publish
-        if (msgs.buttons[0]):
-            self.isPublishTwist = True
-        elif (msgs.buttons[1]):
-            self.isPublishTwist = False
-
-        if (self.isPublishTwist):
-            self.twist_pub.publish(ackermann)
-
         # X : Info 
-        if (msgs.buttons[3]):
+        if (msgs.buttons[0]):
+            self.isPublishCmd = True
+        elif (msgs.buttons[1]):
+            self.isPublishCmd = False
+        elif (msgs.buttons[3]):
             console.log("linear offset : {}".format(self.linear_x_offset))
             console.log("angular offset : {}".format(self.angular_z_offset))
             console.log("Twist : {}".format('True' if self.isPublishTwist else 'False'))
+
+        if (self.isPublishCmd):
+            self.twist_pub.publish(ackermann)
+
 
 
 
