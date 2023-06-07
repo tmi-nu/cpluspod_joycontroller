@@ -34,7 +34,7 @@ class joycon_controller(Node):
         speed = self.constant_speed
         steer = msgs.axes[2]
         if (not self.isConstantSpeed):
-            speed = msg.axes[1] 
+            speed = msgs.axes[1] 
 
 
         ackermann = AckermannControlCommand()
@@ -50,15 +50,15 @@ class joycon_controller(Node):
         elif (msgs.buttons[1]):
             self.isPublishCmd = False
         elif (msgs.buttons[3]):
-            self.isConstantSpeed = not self.isConstantSpeed
+            self.isConstantSpeed = False
+        elif (msgs.buttons[4]):
+            self.isConstantSpeed = True
         elif (msgs.axes[7] == 1):
             self.constant_speed += 0.5
-            status()
+            self.status()
         elif (msgs.axes[7] == -1):
             self.constant_speed -= 0.5
-            status()
-        elif (msgs.buttons[4]):
-            status()
+            self.status()
         if (self.isPublishCmd):
             self.twist_pub.publish(ackermann)
     
