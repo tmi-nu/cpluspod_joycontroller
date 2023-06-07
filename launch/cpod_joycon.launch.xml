@@ -6,8 +6,8 @@
 		<param name="dev" value="/dev/input/js0" />
 	</node>
 
-	<node pkg="cpluspod_joycontroller" exec="cpluspod_joycontroller">
+	<node pkg="cpluspod_joycontroller" exec="cpluspod_joycontroller" output="screen">
 		<param name="linear_x_offset" value="0.8"/>
-		<param name="linear_x_offset" value="0.8"/>
+		<param name="angular_z_offset" value="0.8"/>
 	</node>
 </launch>
